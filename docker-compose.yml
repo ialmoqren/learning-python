@@ -21,4 +21,4 @@ services:
       - 5000:5000
     depends_on:
       - postgres
-    entrypoint: ["python", "main.py","runserver"]
+    entrypoint: ["python", "main.py"]
