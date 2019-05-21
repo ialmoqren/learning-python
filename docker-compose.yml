@@ -1,9 +1,24 @@
 version: '3.4'
 
 services:
-  device-registry:
+  postgres:
+    restart: always
+    image: postgres:10
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
+    volumes:
+      - ./database:/docker-entrypoint-initdb.d
+    ports:
+      - "5432:5432"
+  api:
+    restart: always
     build: .
     volumes:
       - .:/usr/src/app
     ports:
-      - 5000:80
+      - 5000:5000
+    depends_on:
+      - postgres
+    entrypoint: ["python", "main.py","runserver"]
