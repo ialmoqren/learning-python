@@ -9,9 +9,11 @@ def hello():
 
 @app.route("/register", methods=["POST"])
 def register():
-    name = request.args.get("name")
-    email = request.args.get("email")
-    phone_number = request.args.get("phone_number")
+
+    data = request.get_json()
+    name = data["name"]
+    email = data["email"]
+    phone_number = data["phone_number"]
 
     print(name, email, phone_number)
 
