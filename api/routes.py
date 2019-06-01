@@ -1,5 +1,5 @@
 from flask import request, jsonify
-from api.models import Photographers, Orders
+from api.models import Photographers, Orders, Users
 from api import app, db
 
 
@@ -30,6 +30,35 @@ def register():
             "message": "Photographer added successfully",
             "user_message": "Photographer added successfully"
         }), 200
+
+    return response
+
+
+@app.route("/login", methods=["POST"])
+def login():
+
+    data = request.get_json()
+    username = data.get("username")
+    password = data.get("password")
+
+    if not username or not password:
+        response = jsonify({
+            "message": "Empty data received",
+            "user_message": "Please fill all the info"
+        }), 400
+    else:
+        user = Users.query.filter_by(username=username).first()
+
+        if user is None or user.password != password:
+            response = jsonify({
+                "message": "Email or password is not correct",
+                "user_message": "Email or password is not correct"
+            }), 401
+        else:
+            response = jsonify({
+                "message": "User logged in successfully",
+                "user_message": "User logged in successfully"
+            }), 200
 
     return response
 
