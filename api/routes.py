@@ -113,3 +113,27 @@ def photographers():
         }), 200
     else:
         return jsonify(new_photographers), 200
+
+
+@app.route("/orders")
+def orders():
+
+    all_orders = Orders.query.all()
+    new_orders = []
+    for order in all_orders:
+        new_orders.append({
+            "id": order.id,
+            "fullName": order.fullName,
+            "email": order.email,
+            "phone": order.phone,
+            "details": order.details,
+            "timestamp": order.timestamp
+        })
+
+    if not all_orders:
+        return jsonify({
+            "message": "No data",
+            "user_message": "There are no orders"
+        }), 200
+    else:
+        return jsonify(new_orders), 200
