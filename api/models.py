@@ -1,4 +1,4 @@
-from api import db
+from api import db, ma
 from datetime import datetime
 
 
@@ -50,5 +50,18 @@ class Users(db.Model):
     def __repr__(self):
         return f"User('{self.username}')"
 
+
+class PhotographersSchema(ma.ModelSchema):
+    class Meta:
+        model = Photographers
+
+
+class OrdersSchema(ma.ModelSchema):
+    class Meta:
+        model = Orders
+
+
+all_photographers_schema = PhotographersSchema(strict=True, many=True)
+all_orders_schema = OrdersSchema(strict=True, many=True)
 
 db.create_all()

@@ -1,5 +1,5 @@
 from flask import request, jsonify
-from api.models import Photographers, Orders, Users
+from api.models import Photographers, Orders, Users, all_photographers_schema, all_orders_schema
 from api import app, db
 
 
@@ -96,15 +96,6 @@ def order():
 def photographers():
 
     all_photographers = Photographers.query.all()
-    new_photographers = []
-    for photographer in all_photographers:
-        new_photographers.append({
-            "id": photographer.id,
-            "fullName": photographer.fullName,
-            "email": photographer.email,
-            "phone": photographer.phone,
-            "timestamp": photographer.timestamp
-        })
 
     if not all_photographers:
         return jsonify({
@@ -112,23 +103,13 @@ def photographers():
             "user_message": "There are no registered photographers"
         }), 200
     else:
-        return jsonify(new_photographers), 200
+        return all_photographers_schema.jsonify(all_photographers), 200
 
 
 @app.route("/orders")
 def orders():
 
     all_orders = Orders.query.all()
-    new_orders = []
-    for order in all_orders:
-        new_orders.append({
-            "id": order.id,
-            "fullName": order.fullName,
-            "email": order.email,
-            "phone": order.phone,
-            "details": order.details,
-            "timestamp": order.timestamp
-        })
 
     if not all_orders:
         return jsonify({
@@ -136,4 +117,4 @@ def orders():
             "user_message": "There are no orders"
         }), 200
     else:
-        return jsonify(new_orders), 200
+        return all_orders_schema.jsonify(all_orders), 200
