@@ -1,5 +1,5 @@
 from flask import request, jsonify
-from api.models import Photographers
+from api.models import Photographers, Orders
 from api import app, db
 
 
@@ -16,21 +16,48 @@ def register():
     email = data.get("email")
     phone_number = data.get("phone_number")
 
-    print(name, email, phone_number)
-
     if not name or not email or not phone_number:
         response = jsonify({
             "message": "Empty data received",
             "user_message": "Please fill all the info"
         }), 400
     else:
-        me = Photographers(name, email, phone_number)
-        db.session.add(me)
+        new_photographer = Photographers(name, email, phone_number)
+        db.session.add(new_photographer)
         db.session.commit()
 
         response = jsonify({
-            "message": "User added successfully",
-            "user_message": "User added successfully"
+            "message": "Photographer added successfully",
+            "user_message": "Photographer added successfully"
+        }), 200
+
+    return response
+
+
+@app.route("/order", methods=["POST"])
+def order():
+
+    data = request.get_json()
+    name = data.get("name")
+    email = data.get("email")
+    phone_number = data.get("phone_number")
+    details = data.get("details")
+
+    print(name, email, phone_number, details)
+
+    if not name or not email or not phone_number or not details:
+        response = jsonify({
+            "message": "Empty data received",
+            "user_message": "Please fill all the info"
+        }), 400
+    else:
+        new_order = Orders(name, email, phone_number, details)
+        db.session.add(new_order)
+        db.session.commit()
+
+        response = jsonify({
+            "message": "Order added successfully",
+            "user_message": "Order added successfully"
         }), 200
 
     return response
