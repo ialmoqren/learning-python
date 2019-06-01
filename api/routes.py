@@ -1,6 +1,6 @@
 from flask import request, jsonify
 from api.models import Photographers
-from api import app
+from api import app, db
 
 
 @app.route("/")
@@ -24,10 +24,13 @@ def register():
             "user_message": "Please fill all the info"
         }), 400
     else:
+        me = Photographers(name, email, phone_number)
+        db.session.add(me)
+        db.session.commit()
+
         response = jsonify({
-            "name": name,
-            "email": email,
-            "phone_number": phone_number
+            "message": "User added successfully",
+            "user_message": "User added successfully"
         }), 200
 
     return response
@@ -36,10 +39,10 @@ def register():
 @app.route("/photographers")
 def photographers():
 
-    allPhotographers = Photographers.query.all()
-    newPhotographers = []
-    for photographer in allPhotographers:
-        newPhotographers.append({
+    all_photographers = Photographers.query.all()
+    new_photographers = []
+    for photographer in all_photographers:
+        new_photographers.append({
             "id": photographer.id,
             "fullName": photographer.fullName,
             "email": photographer.email,
@@ -47,10 +50,10 @@ def photographers():
             "timestamp": photographer.timestamp
         })
 
-    if not allPhotographers:
+    if not all_photographers:
         return jsonify({
             "message": "No data",
             "user_message": "There are no registered photographers"
         }), 200
     else:
-        return jsonify(newPhotographers), 200
+        return jsonify(new_photographers), 200
