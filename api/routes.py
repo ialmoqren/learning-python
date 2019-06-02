@@ -1,5 +1,9 @@
 from flask import request, jsonify
-from api.models import Photographers, Orders, Users, all_photographers_schema, all_orders_schema
+from api.schemas.photographers_schema import photographers_schema
+from api.schemas.orders_schema import orders_schema
+from api.models.photographers import Photographers
+from api.models.orders import Orders
+from api.models.users import Users
 from api import app, db
 
 
@@ -103,7 +107,7 @@ def photographers():
             "user_message": "There are no registered photographers"
         }), 200
     else:
-        return all_photographers_schema.jsonify(all_photographers), 200
+        return photographers_schema.jsonify(all_photographers), 200
 
 
 @app.route("/orders")
@@ -117,4 +121,4 @@ def orders():
             "user_message": "There are no orders"
         }), 200
     else:
-        return all_orders_schema.jsonify(all_orders), 200
+        return orders_schema.jsonify(all_orders), 200
