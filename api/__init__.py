@@ -8,4 +8,8 @@ app.config.from_object(config)
 db = SQLAlchemy(app)
 ma = Marshmallow(app)
 
-from api import routes
+from api.controller.login import *
+from api.controller.order import *
+from api.controller.orders import *
+from api.controller.photographers import *
+from api.controller.register import *
