@@ -1,9 +1,11 @@
-from flask import request, jsonify
+from flask import request, jsonify, Blueprint
 from api.models.photographers import Photographers
-from api import app, db
+from api import db
+
+api = Blueprint('register_api', __name__)
 
 
-@app.route("/register", methods=["POST"])
+@api.route("/register", methods=["POST"])
 def register():
 
     data = request.get_json()

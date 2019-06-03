@@ -1,9 +1,10 @@
-from flask import request, jsonify
-from api import app
+from flask import request, jsonify, Blueprint
 from api.models.users import Users
 
+api = Blueprint('login_api', __name__)
 
-@app.route("/login", methods=["POST"])
+
+@api.route("/login", methods=["POST"])
 def login():
 
     data = request.get_json()

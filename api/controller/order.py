@@ -1,9 +1,11 @@
-from flask import request, jsonify
+from flask import request, jsonify, Blueprint
+from api import db
 from api.models.orders import Orders
-from api import app, db
+
+api = Blueprint('order_api', __name__)
 
 
-@app.route("/order", methods=["POST"])
+@api.route("/order", methods=["POST"])
 def order():
 
     data = request.get_json()

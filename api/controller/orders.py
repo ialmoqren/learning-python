@@ -1,10 +1,11 @@
-from flask import request, jsonify
+from flask import request, jsonify, Blueprint
 from api.schemas.orders_schema import orders_schema
 from api.models.orders import Orders
-from api import app
+
+api = Blueprint('orders_api', __name__)
 
 
-@app.route("/orders")
+@api.route("/orders")
 def orders():
 
     all_orders = Orders.query.all()

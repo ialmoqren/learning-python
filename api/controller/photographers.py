@@ -1,10 +1,11 @@
-from flask import jsonify
+from flask import jsonify, Blueprint
 from api.schemas.photographers_schema import photographers_schema
 from api.models.photographers import Photographers
-from api import app
+
+api = Blueprint('photographers_api', __name__)
 
 
-@app.route("/photographers")
+@api.route("/photographers")
 def photographers():
 
     all_photographers = Photographers.query.all()
