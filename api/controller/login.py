@@ -1,5 +1,6 @@
 from flask import request, jsonify, Blueprint
 from api.models.users import Users
+from api import bcrypt
 
 api = Blueprint('login_api', __name__)
 
@@ -29,5 +30,27 @@ def login():
                 "message": "User logged in successfully",
                 "user_message": "User logged in successfully"
             }), 200
+
+    return response
+
+
+@api.route("/hash_password", methods=["POST"])
+def hash_password():
+
+    data = request.get_json()
+    password = data.get("password")
+
+    if not password:
+        response = jsonify({
+            "message": "Empty data received",
+            "user_message": "Please fill all the info"
+        }), 400
+    else:
+        pw_hash = bcrypt.generate_password_hash(password).decode("utf-8")
+        response = jsonify({
+            "pw_hash": pw_hash,
+            "message": "Password hashed successfully",
+            "user_message": "Password hashed successfully"
+        }), 200
 
     return response

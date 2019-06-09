@@ -1,10 +1,12 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_marshmallow import Marshmallow
+from flask_bcrypt import Bcrypt
 import config
 
 db = SQLAlchemy()
 ma = Marshmallow()
+bcrypt = Bcrypt()
 
 def create_app():
     app = Flask(__name__)
@@ -12,6 +14,7 @@ def create_app():
 
     db.init_app(app)
     ma.init_app(app)
+    bcrypt.init_app(app)
 
     from api.controller.login import api as login_api_blueprint
     from api.controller.order import api as order_api_blueprint
