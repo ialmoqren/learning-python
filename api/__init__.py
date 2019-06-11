@@ -8,9 +8,10 @@ db = SQLAlchemy()
 ma = Marshmallow()
 bcrypt = Bcrypt()
 
-def create_app():
+def create_app(is_testing=False):
     app = Flask(__name__)
     app.config.from_object(config)
+    app.config['TESTING'] = is_testing
 
     db.init_app(app)
     ma.init_app(app)
@@ -29,7 +30,7 @@ def create_app():
     app.register_blueprint(photographers_api_blueprint)
     app.register_blueprint(register_api_blueprint)
 
-    app.run(host='0.0.0.0', port=5000, debug=True)
+    # app.run(host='0.0.0.0', port=5000, debug=True)
     return app
 
 from api.controller.login import login
